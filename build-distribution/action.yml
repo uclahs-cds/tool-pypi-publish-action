@@ -1,0 +1,42 @@
+# This Action mostly follows these docs
+# https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+---
+name: Build Python 🐍 distribution 📦
+
+description: "Builds Python package."
+
+inputs:
+  #github-token:
+  #  description: "A GitHub PAT used to commit and push generated SVGs back into the repository."
+  #  required: true
+  package-name:
+    # TODO make directory an input
+    description: "The name of the Python package, located under `src/`, to build."
+    required: true
+runs:
+  using: "composite"
+  build-distribution:
+    name: Build distribution 📦
+    runs-on: ubuntu-latest
+
+    steps:
+      #- uses: actions/checkout@v4
+      #  with:
+      #    #token: ${{ inputs.github-token }}
+      #    fetch-depth: 0
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install pypa/build
+        run: python3 -m pip install build --user
+
+      - name: Build a binary wheel and a source tarball
+        run: |
+          python3 -m build
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distributions
+          path: "dist/"

@@ -1,0 +1,39 @@
+# This Action mostly follows these docs
+# https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+---
+name: Publish Python 🐍 distribution 📦 to PyPI
+
+description: "Publishes Python packages to PyPI."
+
+inputs:
+  #github-token:
+  #  description: "A GitHub PAT used to commit and push generated SVGs back into the repository."
+  #  required: true
+  package-name:
+    description: "The name of the Python package to publish."
+    required: true
+runs:
+  using: "composite"
+  publish-to-pypi:
+    name: Publish Python 🐍 distribution 📦 to PyPI
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      #url: "https://pypi.org/p/${{ inputs.package-name }}"
+      url: "https://test.pypi.org/p/${{ inputs.package-name }}"
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1.8
+        with:
+          #repository-url: https://upload.pypi.org/legacy/
+          repository-url: https://test.pypi.org/legacy/
