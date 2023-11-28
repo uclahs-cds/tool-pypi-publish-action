@@ -15,28 +15,26 @@ inputs:
     required: true
 runs:
   using: "composite"
-  build-distribution:
-    name: Build distribution 📦
-    runs-on: ubuntu-latest
+  steps:
+    #- uses: actions/checkout@v4
+    #  with:
+    #    #token: ${{ inputs.github-token }}
+    #    fetch-depth: 0
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
 
-    steps:
-      #- uses: actions/checkout@v4
-      #  with:
-      #    #token: ${{ inputs.github-token }}
-      #    fetch-depth: 0
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.x"
+    - name: Install pypa/build
+      shell: bash
+      run: python3 -m pip install build --user
 
-      - name: Install pypa/build
-        run: python3 -m pip install build --user
+    - name: Build a binary wheel and a source tarball
+      shell: bash
+      run: |
+        python3 -m build
 
-      - name: Build a binary wheel and a source tarball
-        run: |
-          python3 -m build
-
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-package-distributions
-          path: "dist/"
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: python-package-distributions
+        path: "dist/"
