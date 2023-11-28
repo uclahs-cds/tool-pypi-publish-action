@@ -14,26 +14,26 @@ inputs:
     required: true
 runs:
   using: "composite"
-  publish-to-pypi:
-    name: Publish Python 🐍 distribution 📦 to PyPI
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      #url: "https://pypi.org/p/${{ inputs.package-name }}"
-      url: "https://test.pypi.org/p/${{ inputs.package-name }}"
-    permissions:
-      id-token: write
+  # TODO how to manage this dependency?
+  #needs:
+  #  - build
 
-    steps:
-      - name: Download all the dists
-        uses: actions/download-artifact@v3
-        with:
-          name: python-package-distributions
-          path: dist/
-      - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1.8
-        with:
-          #repository-url: https://upload.pypi.org/legacy/
-          repository-url: https://test.pypi.org/legacy/
+  # TODO how do these work in composite actions?
+  #environment:
+  #  name: pypi
+  #  #url: "https://pypi.org/p/${{ inputs.package-name }}"
+  #  url: "https://test.pypi.org/p/${{ inputs.package-name }}"
+  #permissions:
+  #  id-token: write
+
+  steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1.8
+      with:
+        #repository-url: https://upload.pypi.org/legacy/
+        repository-url: https://test.pypi.org/legacy/
