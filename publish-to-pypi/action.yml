@@ -12,11 +12,10 @@ inputs:
   package-name:
     description: "The name of the Python package to publish."
     required: true
-  test_pypi:
-    description: "Publish to the test-PyPI instead of PyPI."
-    type: boolean
+  url:
+    description: "Repository URL to publish the Python package. Defaults to Test-PyPI. For PyPI, use https://upload.pypi.org/legacy/"
     required: false
-    default: true
+    default: https://test.pypi.org/legacy/
 
 runs:
   using: "composite"
@@ -42,4 +41,4 @@ runs:
       uses: pypa/gh-action-pypi-publish@release/v1.8
       with:
         #repository-url: https://upload.pypi.org/legacy/
-        repository-url: ${{ inputs.test_pypi == true && 'https://test.pypi.org/legacy/' || 'https://upload.pypi.org/legacy/' }}
+        repository-url: ${{ inputs.url }}
