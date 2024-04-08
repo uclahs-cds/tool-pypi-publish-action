@@ -12,6 +12,11 @@ inputs:
   package-name:
     description: "The name of the Python package to publish."
     required: true
+  url:
+    description: "Repository URL to publish the Python package. Defaults to Test-PyPI. For PyPI, use https://upload.pypi.org/legacy/"
+    required: false
+    default: https://test.pypi.org/legacy/
+
 runs:
   using: "composite"
   # TODO how to manage this dependency?
@@ -36,4 +41,4 @@ runs:
       uses: pypa/gh-action-pypi-publish@release/v1.8
       with:
         #repository-url: https://upload.pypi.org/legacy/
-        repository-url: https://test.pypi.org/legacy/
+        repository-url: ${{ inputs.url }}
