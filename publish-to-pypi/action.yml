@@ -38,9 +38,9 @@ runs:
         name: python-package-distributions
         path: dist/
     - name: Publish distribution 📦 to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1.11
+      uses: pypa/gh-action-pypi-publish@release/v1.10
       with:
         #repository-url: https://upload.pypi.org/legacy/
         attestations: false
-        verify-metadata: true
+        verify-metadata: false
         repository-url: ${{ inputs.url }}
