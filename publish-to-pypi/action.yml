@@ -41,4 +41,5 @@ runs:
       uses: pypa/gh-action-pypi-publish@release/v1.11
       with:
         #repository-url: https://upload.pypi.org/legacy/
+        verify-metadata: false
         repository-url: ${{ inputs.url }}
